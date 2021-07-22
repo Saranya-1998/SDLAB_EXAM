@@ -1,0 +1,52 @@
+#Write a shell script to find the median of two arrays after merging and sorting  them. 
+#(For eg: A1: 3,5,8 ; A2: 2,7,9 ; Merged and sorted array: 2,3,5,7,8,9 ; Median: (5+7)/2=6 )
+
+echo "Enter the size of first array"
+read size1
+i=0
+echo "Enter the elements"
+while [ $i -lt $size1 ]
+do
+   read a[$i]
+   i=$((i+1))
+done
+echo "Enter the size of second array"
+read size2
+i=0
+echo "Enter the elements"
+while [ $i -lt $size2 ]
+do
+   read b[$i]
+   i=$((i+1))
+done
+
+# Merging up of 2 arrays
+ c=("${a[@]}" "${b[@]}")
+ size3=$(($size1 + $size2))
+ echo -e "Array after merging : "
+ echo ${c[@]:0:$size3}
+
+# Sorting up of 3rd array c
+for(( i=0;i<$size3;i++ ))
+ do
+     for(( j=0;j<$(($size3 - $i));j++ ))
+       do
+           if [ ${c[$j]} -gt ${c[$((j + 1))]} ]
+           then
+                t=${c[$j]}
+                c[$j]=${c[$(($j+1))]}
+                c[$(($j+1))]=$t
+           fi
+       done
+ done
+ echo -e "Array after sorting : "
+ echo ${c[@]:0:$size3}
+ 
+ #find the median
+ m=$(( $size3 / 2 ))
+ x=${c[$m]}
+ y=${c[$m-1]}
+ sum=$(($x + $y))
+ median=$(($sum / 2))
+ echo "Median = $median"
+ 
